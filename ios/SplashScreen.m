@@ -12,6 +12,7 @@
 
 static bool waiting = true;
 static bool addedJsLoadErrorObserver = false;
+static bool splashScreenEnabled = true;
 
 @implementation SplashScreen
 - (dispatch_queue_t)methodQueue{
@@ -38,6 +39,10 @@ RCT_EXPORT_MODULE()
                    });
 }
 
+ + (bool)showSplashScreen() {
+   return [SplashScreen splashScreenEnabled];
+ }
+
 + (void) jsLoadError:(NSNotification*)notification
 {
     // If there was an error loading javascript, hide the splash screen so it can be shown.  Otherwise the splash screen will remain forever, which is a hassle to debug.
@@ -46,6 +51,14 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(hide) {
     [SplashScreen hide];
+}
+
+RCT_EXPORT_METHOD(enableSplashScreen) {
+    splashScreenEnabled = true;
+}
+
+RCT_EXPORT_METHOD(disableSplashScreen) {
+    splashScreenEnabled = false;
 }
 
 @end
