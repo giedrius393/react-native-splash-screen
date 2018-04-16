@@ -11,5 +11,6 @@
 @interface SplashScreen : NSObject<RCTBridgeModule>
 + (void)show;
 + (void)hide;
-+ (bool)showSplashScreen;
++ (void)showSplashScreen:UIWindow splashScreenImage:UIImage;
++ (void)hideSplashScreen:UIWindow;
 @end

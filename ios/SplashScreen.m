@@ -13,6 +13,7 @@
 static bool waiting = true;
 static bool addedJsLoadErrorObserver = false;
 static bool splashScreenEnabled = true;
+static int imgTag = 1111;
 
 @implementation SplashScreen
 - (dispatch_queue_t)methodQueue{
@@ -39,9 +40,20 @@ RCT_EXPORT_MODULE()
                    });
 }
 
- + (bool)showSplashScreen() {
-   return [SplashScreen splashScreenEnabled];
++ (void) showSplashScreen:(UIWindow*)window splashScreenImage:(UIImage*)image{
+    if (!splashScreenEnabled) { return; }
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame: [UIScreen mainScreen].bounds];
+    imageView.image = image;
+    imageView.tag = imgTag;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [window addSubview:imageView];
  }
+
++ (void) hideSplashScreen:(UIWindow*)window {
+    if (!splashScreenEnabled) { return; }
+    UIView *imageView = [window viewWithTag:imgTag];
+    [imageView removeFromSuperview];
+}
 
 + (void) jsLoadError:(NSNotification*)notification
 {
